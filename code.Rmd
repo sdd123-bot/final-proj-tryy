@@ -1,0 +1,294 @@
+---
+title: "code"
+author: "Smile Shi"
+date: "2026-10-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readr)
+mental_health <- read_csv("D:/xz/mental-health-inpatient-activity-deprivation.csv")
+View(mental_health)
+library(tidyverse)
+mental_health_clean <- mental_health %>%
+select(
+SIMD,
+PatientsRates,
+FinancialYear,
+Dataset,
+HBR
+)
+View(mental_health_clean)
+unique(mental_health_clean$FinancialYear)
+unique(mental_health_clean$Dataset)
+unique(mental_health_clean$HBR)
+unique(mental_health_clean$SIMD)
+library(tidyverse)
+plot_data <- mental_health_clean %>%
+filter(
+FinancialYear == max(FinancialYear, na.rm = TRUE),
+Dataset == "SMR04",
+HBR == "S92000003",
+SIMD %in% 1:5,
+!is.na(PatientsRates)
+) %>%
+arrange(SIMD)
+View(plot_data)
+ggplot(plot_data,
+aes(x = factor(SIMD), y = PatientsRates)) +
+geom_col(fill = "steelblue") +
+labs(
+title = "Mental Health Inpatient Rates by Deprivation",
+x = "SIMD Quintile",
+y = "Patients per 100,000 Population"
+) +
+theme_minimal()
+ggplot(plot_data,
+aes(x = factor(SIMD), y = PatientsRates)) +
+geom_col(fill = "steelblue") +
+labs(
+title = "Mental Health Inpatient Rates by Deprivation",
+subtitle = paste("Financial Year:", unique(plot_data$FinancialYear)),
+x = "SIMD Quintile",
+y = "Patients per 100,000 Population"
+) +
+theme_minimal()
+View(mental_health_clean)
+library(tidyverse)
+# Step 1: Select all years
+plot_data_all <- mental_health_clean %>%
+filter(
+Dataset == "SMR04",
+HBR == "S92000003",
+SIMD %in% 1:5,
+!is.na(PatientsRates)
+)
+# Step 2: Calculate average inpatient rate
+plot_data_average <- plot_data_all %>%
+group_by(SIMD) %>%
+summarise(
+PatientsRates = mean(PatientsRates),
+.groups = "drop"
+)
+# Step 3: Create bar chart
+ggplot(plot_data_average,
+aes(x = factor(SIMD), y = PatientsRates)) +
+geom_col(fill = "steelblue") +
+labs(
+title = "Mental Health Inpatient Rates by Deprivation",
+subtitle = paste(
+"Average Rate:",
+min(plot_data_all$FinancialYear),
+"to",
+max(plot_data_all$FinancialYear)
+),
+x = "SIMD Quintile",
+y = "Patients per 100,000 Population"
+) +
+theme_minimal()
+View(plot_data)
+View(mental_health)
+View(plot_data_all)
+load("C:/final try/.RData")
+View(plot_data_all)
+library(dplyr)
+library(ggplot2)
+mental_health_mean <- mental_health %>%
+group_by(FinancialYear, SIMD) %>%
+summarise(mean_rate = mean(PatientsRates, na.rm = TRUE), .groups = "drop")
+ggplot(mental_health_mean, aes(x = FinancialYear, y = mean_rate, colour = factor(SIMD), group = factor(SIMD))) +
+geom_line(linewidth = 1) +
+labs(
+x = "Financial Year",
+y = "Mean psychiatric admission rate (per 100,000 population)",
+colour = "SIMD quintile\n(1=most deprived, 5=least deprived)"
+) +
+theme_bw()
+scale_x_discrete(breaks = c(
+"1997/98",
+"2002/03",
+"2007/08",
+"2012/13",
+"2017/18",
+"2022/23"
+)) +
+scale_x_discrete(breaks = c(
+"1997/98",
+"2002/03",
+"2007/08",
+"2012/13",
+"2017/18",
+"2022/23"
+)) +
+View(plot_data_average)
+library(tidyverse)
+ggplot(plot_data_all,
+aes(x = FinancialYear,
+y = PatientsRates,
+color = factor(SIMD),
+group = SIMD)) +
+geom_line(linewidth = 1) +
+scale_x_discrete(
+breaks = c(
+"1997/98",
+"2002/03",
+"2007/08",
+"2012/13",
+"2017/18",
+"2022/23"
+)
+) +
+labs(
+title = "Mental Health Inpatient Rates by Deprivation",
+subtitle = "Scotland: 1997/98 to 2023/24",
+x = "Financial Year",
+y = "Patients per 100,000 Population",
+color = "SIMD Quintile"
+) +
+theme_minimal()
+ggplot(plot_data_all,
++        aes(x = FinancialYear,
++            y = PatientsRates,
+ggplot(plot_data_all,
++        aes(x = FinancialYear,
++            y = PatientsRates,
+ggplot(plot_data_all,
+aes(x = FinancialYear,
+y = PatientsRates)) +
+geom_line() +
+geom_point()
+library(dplyr)
+library(ggplot2)
+mental_health_mean <- mental_health %>%
+group_by(FinancialYear, SIMD) %>%
+summarise(mean_rate = mean(PatientsRates, na.rm = TRUE), .groups = "drop")
+ggplot(mental_health_mean, aes(x = FinancialYear, y = mean_rate, colour = factor(SIMD), group = factor(SIMD))) +
+geom_line(linewidth = 1) +
+labs(
+x = "Financial Year",
+y = "Mean psychiatric admission rate (per 100,000 population)",
+colour = "SIMD quintile\n(1=most deprived, 5=least deprived)"
+) +
+theme_bw()
+scale_x_discrete(breaks = c(
+"1997/98",
+"2002/03",
+"2007/08",
+"2012/13",
+"2017/18",
+"2022/23"
+)) +
+scale_x_discrete(breaks = c(
+"1997/98",
+"2002/03",
+"2007/08",
+"2012/13",
+"2017/18",
+"2022/23"
+)) +
+View(plot_data_average)
+rlang::last_trace()
+ggplot(plot_data_all,
++        aes(x = FinancialYear,
++            y = PatientsRates,
+ggplot(plot_data_all,
+aes(x = FinancialYear,
+y = PatientsRates,
++            color = factor(SIMD),
+ggplot(plot_data_all,
+aes(x = FinancialYear,
+y = PatientsRates,
+color = factor(SIMD),
+group = SIMD)) +
+geom_line(linewidth = 1) +
+scale_x_discrete(
+breaks = c(
++             "1997/98",
++             "2002/03",
++             "2007/08",
++             "2012/13",
++             "2017/18",
++             "2022/23"
++         )
+ggplot(plot_data_all,
+aes(x = FinancialYear,
+y = PatientsRates,
+color = factor(SIMD),
+group = SIMD)) +
+geom_line(linewidth = 1) +
+scale_x_discrete(
+breaks = c(
+"1997/98",
+"2002/03",
+"2007/08",
+"2012/13",
+"2017/18",
+"2022/23"
+)
+)
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+# Add any other libraries here
+View(mental_health_mean)
+> ggplot(plot_data_all,
+library(dplyr)
+library(ggplot2)
+mental_health_mean <- mental_health %>%
+group_by(FinancialYear, SIMD) %>%
+summarise(mean_rate = mean(PatientsRates, na.rm = TRUE), .groups = "drop")
+ggplot(mental_health_mean, aes(x = FinancialYear, y = mean_rate, colour = factor(SIMD), group = factor(SIMD))) +
+geom_line(linewidth = 1) +
+labs(
+x = "Financial Year",
+y = "Mean psychiatric admission rate (per 100,000 population)",
+colour = "SIMD quintile\n(1=most deprived, 5=least deprived)"
+) +
+theme_bw()
+scale_x_discrete(breaks = c(
+"1997/98",
+"2002/03",
+"2007/08",
+"2012/13",
+"2017/18",
+"2022/23"
+)) +
+scale_x_discrete(breaks = c(
+"1997/98",
+"2002/03",
+"2007/08",
+"2012/13",
+"2017/18",
+"2022/23"
+)) +
+View(plot_data_average)
+library(tidyverse)
+ggplot(plot_data_all,
+aes(x = FinancialYear,
+y = PatientsRates,
+color = factor(SIMD),
+group = SIMD)) +
+geom_line(linewidth = 1) +
+scale_x_discrete(
+breaks = c(
+"1997/98",
+"2002/03",
+"2007/08",
+"2012/13",
+"2017/18",
+"2022/23"
+)
+) +
+labs(
+title = "Mental Health Inpatient Rates by Deprivation",
+subtitle = "Scotland: 1997/98 to 2023/24",
+x = "Financial Year",
+y = "Patients per 100,000 Population",
+color = "SIMD Quintile"
+) +
+theme_minimal()
+
+```
