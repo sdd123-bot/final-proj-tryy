@@ -8,7 +8,7 @@ output: html_document
 ```{r}
 library(tidyverse)
 
-mental_health <- read_csv("D:/xz/mental-health-inpatient-activity-deprivation.csv")
+mental_health <- read_csv("deprivation")
 
 mental_health_clean <- mental_health %>%
   select(
@@ -59,3 +59,23 @@ ggplot(plot_data_trend,
   ) +
   theme_minimal()
 ```
+```{r}
+mean_data <- deprivation %>%
+   group_by(FinancialYear, SIMD) %>%
+   summarise(mean_rate = mean(DischargeRates, na.rm = TRUE), .groups = "drop")
+ggplot(mean_data,mapping=aes(x=FinancialYear,y=mean_rate,color=SIMD,group = SIMD))+
+  geom_line(linewidth = 1.2)+
+  scale_color_manual(                                      
+    values = c("1" = "#D94F50",  
+       "2" = "#4B86B4", 
+       "3" = "#5B9A68",  
+       "4" = "#9B72AA",  
+       "5" = "#E59866",  
+       "6" = "#B3A27F" ),
+     name = "SIMD") +
+     scale_x_discrete(breaks = my_breaks) +
+   labs(title="The Trend of Discharge Rates", subtitle="1997-2024", x="Financial Year", y="The Mean of Discharge Rate")+
+   theme_minimal()+
+   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
