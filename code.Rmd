@@ -1,0 +1,61 @@
+---
+title: "code"
+author: "Smile Shi"
+date: "2026-10-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+mental_health <- read_csv("D:/xz/mental-health-inpatient-activity-deprivation.csv")
+
+mental_health_clean <- mental_health %>%
+  select(
+    SIMD,
+    PatientsRates,
+    FinancialYear,
+    Dataset,
+    HBR
+  )
+
+plot_data_all <- mental_health_clean %>%
+  filter(
+    Dataset == "SMR04",
+    HBR == "S92000003",
+    SIMD %in% 1:5,
+    !is.na(PatientsRates)
+  )
+
+plot_data_trend <- plot_data_all %>%
+  group_by(FinancialYear, SIMD) %>%
+  summarise(
+    PatientsRates = mean(PatientsRates),
+    .groups = "drop"
+  )
+
+ggplot(plot_data_trend,
+       aes(x = FinancialYear,
+           y = PatientsRates,
+           color = factor(SIMD),
+           group = SIMD)) +
+  geom_line(linewidth = 1) +
+  scale_x_discrete(
+    breaks = c(
+      "1997/98",
+      "2002/03",
+      "2007/08",
+      "2012/13",
+      "2017/18",
+      "2022/23"
+    )
+  ) +
+  labs(
+    title = "Mental Health Inpatient Rates by Deprivation",
+    subtitle = "Scotland: Trends Over Time",
+    x = "Financial Year",
+    y = "Patients per 100,000 Population",
+    color = "SIMD Quintile"
+  )
+  theme_minimal()
+```
