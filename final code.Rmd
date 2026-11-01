@@ -8,7 +8,7 @@ output: html_document
 ```{r}
 library(tidyverse)
 
-mental_health <- read_csv("deprivation")
+mental_health <- read_csv("deprivation.csv")
 
 mental_health_clean <- mental_health %>%
   select(
