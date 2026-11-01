@@ -63,10 +63,11 @@ ggplot(plot_data_trend,
 mean_data <- deprivation %>%
    group_by(FinancialYear, SIMD) %>%
    summarise(mean_rate = mean(DischargeRates, na.rm = TRUE), .groups = "drop")
-ggplot(mean_data,mapping=aes(x=FinancialYear,y=mean_rate,color=SIMD,group = SIMD))+
+ggplot(mean_data, aes(x = FinancialYear, y = mean_rate, color = factor(SIMD), group = SIMD)) +
   geom_line(linewidth = 1.2)+
   scale_color_manual(                                      
-    values = c("1" = "#D94F50",  
+    values = c(
+       "1" = "#D94F50",  
        "2" = "#4B86B4", 
        "3" = "#5B9A68",  
        "4" = "#9B72AA",  
