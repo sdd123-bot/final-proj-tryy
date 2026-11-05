@@ -1,6 +1,6 @@
 ---
 title: "code"
-author: "Smile Shi，Brinlynee"
+author: "Smile Shi，Brinlynee，Nolanzsc"
 date: "2026-10-30"
 output: html_document
 ---
@@ -60,6 +60,14 @@ ggplot(plot_data_trend,
   theme_minimal()
 ```
 ```{r}
+my_breaks <- c(
+  "1997/98",
+  "2002/03",
+  "2007/08",
+  "2012/13",
+  "2017/18",
+  "2022/23"
+)
 mean_data <- deprivation %>%
    group_by(FinancialYear, SIMD) %>%
    summarise(mean_rate = mean(DischargeRates, na.rm = TRUE), .groups = "drop")
