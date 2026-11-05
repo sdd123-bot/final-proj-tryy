@@ -4,6 +4,31 @@ author: "Smile Shi，Brinlynee，Nolanzsc"
 date: "2026-10-30"
 output: html_document
 ---
+```{r}
+mental_health <- read.csv("deprivation.csv")
+library(ggplot2)
+ggplot(data = deprivation, aes(x = factor(SIMD), y = PatientsRates, fill = factor(SIMD))) +
+  geom_boxplot(alpha = 0.7) +
+  scale_fill_manual(
+    values = c(
+      "1" = "#D94F50",
+      "2" = "#4B86B4",
+      "3" = "#5B9A68",
+      "4" = "#9B72AA",
+      "5" = "#E59866",
+      "6" = "#B3A27F"
+    ),
+    name = "SIMD quintile"
+  ) +
+  labs(
+    x = "SIMD deprivation quintile (1 = most deprived, 5 = least deprived)",
+    y = "Psychiatric patient admission rate (per 100,000 population)"
+  ) +
+  theme_bw()
+
+
+
+```
 
 ```{r}
 library(tidyverse)
@@ -87,4 +112,6 @@ ggplot(mean_data, aes(x = FinancialYear, y = mean_rate, color = factor(SIMD), gr
    theme_minimal()+
    theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
+
 
