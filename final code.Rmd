@@ -10,13 +10,13 @@ library(ggplot2)
 ggplot(data = deprivation, aes(x = factor(SIMD), y = PatientsRates, fill = factor(SIMD))) +
   geom_boxplot(alpha = 0.7) +
   scale_fill_manual(
-    values = c(
-      "1" = "#D94F50",
-      "2" = "#4B86B4",
-      "3" = "#5B9A68",
-      "4" = "#9B72AA",
-      "5" = "#E59866",
-      "6" = "#B3A27F"
+ values = c(
+       "1" = "#F8766D",
+       "2" = "#A3A500",
+       "3" = "#00BF7D",  
+       "4" = "#00B0F6",
+       "5" = "#E76BF3",
+       "6" = "#F4A261"
     ),
     name = "SIMD quintile"
   ) +
